@@ -16,7 +16,7 @@ app.add_middleware(
 )
 
 # Load model (Render runs the app from project root)
-model = joblib.load("model/breast_cancer_best_pipeline.joblib")
+model = joblib.load("../model/breast_cancer_best_pipeline.joblib")
 
 
 class CancerInput(BaseModel):
