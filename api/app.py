@@ -6,16 +6,17 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Breast Cancer Prediction API")
 
-# CORS FIX
+# CORS for frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # allow all domains (Github Pages)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-model = joblib.load("../breast_cancer_best_pipeline.joblib")
+# Load model (Render runs the app from project root)
+model = joblib.load("model/breast_cancer_best_pipeline.joblib")
 
 
 class CancerInput(BaseModel):
