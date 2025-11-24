@@ -1,4 +1,4 @@
-# 🩺 Breast Cancer Prediction — Machine Learning + FastAPI
+#🩺 Breast Cancer Prediction — Machine Learning + FastAPI
 
 End-to-end ML project that predicts whether a breast tumor is likely to be **cancerous or not** using the Breast Cancer Wisconsin dataset.
 
@@ -17,19 +17,22 @@ End-to-end ML project that predicts whether a breast tumor is likely to be **can
 ## 📂 Project Structure
 
 ```
-breast-cancer-machine-learning/
+breast-cancer-ml/
 │
 ├── api/
-│   └── app.py                      # FastAPI backend (loads saved model)
+│   ├── app.py
+│   └── model/
+│        ├── breast_cancer_best_pipeline.joblib
+│        └── breast_cancer_metadata.json
 │
-├── frontend/
-│   └── index.html                  # Simple HTML + JS UI
+├── docs/
+│   └── index.html         # Frontend (GitHub Pages)
 │
-├── breast_cancer_best_pipeline.joblib   # Saved sklearn pipeline (scaler + model)
-├── breast_cancer_metadata.json          # Metadata (features, hyperparams, threshold)
-├── main.py                             # Training script (full ML pipeline)
+├── main.py                # Training pipeline
+├── render.yaml            # Render deployment config
 ├── requirements.txt
 └── README.md
+
 ```
 
 > Note: `.venv/` and other local environment files should be ignored via `.gitignore`.
@@ -45,6 +48,13 @@ Using `sklearn.datasets.load_breast_cancer`:
 - **Target labels**:  
   - `0` → Malignant (**cancer**)  
   - `1` → Benign (**no cancer**)  
+
+---
+
+## 🌐 Live Demo
+
+Try the deployed web app here:  
+👉 **[Breast Cancer Predictor — Live Demo](https://mohit-bagri.github.io/breast-cancer-ml/)**  
 
 ---
 
@@ -64,18 +74,6 @@ Windows (PowerShell):
 ### 2️⃣ Install dependencies
 ```
 pip install -r requirements.txt
-```
-
-Minimal `requirements.txt`:
-```
-fastapi
-uvicorn
-scikit-learn
-pandas
-numpy
-joblib
-matplotlib
-shap
 ```
 
 ---
@@ -107,7 +105,7 @@ Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
 Open:
 
 ```
-frontend/index.html
+docs/index.html
 ```
 
 Either double-click OR use VS Code Live Server.
@@ -212,24 +210,12 @@ Used directly by FastAPI.
 
 ---
 
-## 🧪 Test the API using cURL
-
-```
-curl -X POST "http://127.0.0.1:8000/predict" \
-  -H "Content-Type: application/json" \
-  -d '{"data":[17.99,10.38,122.80,1001.0,0.1184,0.2776,0.3001,0.1471,0.2419,0.07871,1.095,0.9053,8.589,153.4,0.006399,0.04904,0.05373,0.01587,0.03003,0.006193,25.38,17.33,184.6,2019.0,0.1622,0.6656,0.7119,0.2654,0.4601,0.1189]}'
-```
-
----
-
 ## 🚀 Next Steps
 
-- Dockerize backend  
-- Deploy API (Render / Railway / AWS / GCP)  
-- Deploy frontend (GitHub Pages / Vercel)  
-- Add logging + monitoring  
+- Improve UI styling
+- Add visual charts to frontend
+- Add logging & monitoring
 - Add unit tests
-- Improve UI
 
 ---
 
