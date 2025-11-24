@@ -19,7 +19,7 @@
         }
         #result {
             margin-top: 20px;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
         }
     </style>
@@ -39,33 +39,28 @@
 
 <script>
     async function makePrediction() {
-    const raw = document.getElementById("inputArea").value;
-    const nums = raw.split(",").map(x => parseFloat(x.trim()));
+        const raw = document.getElementById("inputArea").value;
+        const nums = raw.split(",").map(x => parseFloat(x.trim()));
 
-    if (nums.length !== 30) {
-        alert("Error: You must enter exactly 30 numbers");
-        return;
+        if (nums.length !== 30) {
+            alert("Error: You must enter exactly 30 numbers");
+            return;
+        }
+
+        const response = await fetch("https://YOUR_RENDER_URL/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ data: nums })
+        });
+
+        const result = await response.json();
+
+        let message = result.cancer
+            ? "YES — Breast cancer detected"
+            : "NO — Breast cancer NOT detected";
+
+        document.getElementById("result").innerText = message;
     }
-
-    const response = await fetch("http://127.0.0.1:8000/predict", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ data: nums })
-    });
-
-    const result = await response.json();
-
-    let message = "";
-
-    if (result.prediction === 0) {
-        message = "YES — Breast cancer detected";
-    } else {
-        message = "NO — Breast cancer NOT detected";
-    }
-
-    document.getElementById("result").innerText = message;
-}
-
 </script>
 
 </body>
