@@ -3,20 +3,22 @@ from pydantic import BaseModel
 import joblib
 import numpy as np
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 app = FastAPI(title="Breast Cancer Prediction API")
 
-# CORS for frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # allow all domains (Github Pages)
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Load model (Render runs the app from project root)
-model = joblib.load("../model/breast_cancer_best_pipeline.joblib")
+# 🔥 FIXED - always resolves correctly on Render
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MODEL_PATH = os.path.join(BASE_DIR, "model", "breast_cancer_best_pipeline.joblib")
+model = joblib.load(MODEL_PATH)
 
 
 class CancerInput(BaseModel):
@@ -32,8 +34,5 @@ def home():
 def predict(input_data: CancerInput):
     arr = np.array(input_data.data).reshape(1, -1)
     pred = model.predict(arr)[0]
-
-    # 0 = malignant (cancer), 1 = benign (no cancer)
     cancer = True if pred == 0 else False
-
     return {"cancer": cancer}
