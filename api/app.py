@@ -15,9 +15,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 🔥 FIXED - always resolves correctly on Render
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# ✔ FIX: Load model relative to *this* file (inside api/)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "model", "breast_cancer_best_pipeline.joblib")
+
 model = joblib.load(MODEL_PATH)
 
 
@@ -34,5 +35,7 @@ def home():
 def predict(input_data: CancerInput):
     arr = np.array(input_data.data).reshape(1, -1)
     pred = model.predict(arr)[0]
+
     cancer = True if pred == 0 else False
+
     return {"cancer": cancer}
